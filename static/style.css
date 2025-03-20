@@ -1,0 +1,472 @@
+
+    @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&display=swap');
+
+    @import url('https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400..700;1,400..700&family=League+Spartan:wght@100..900&family=Noto+Sans+Georgian:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&display=swap');
+
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background-color: #f5f5f5;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .chat-container {
+        width: 100%;
+        max-width: 400px;
+        height: 600px;
+        background-color: white;
+        border-radius: 9px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 2;
+        font-family: Gelasio;
+    }
+
+    .chat-header {
+        background-color: #130CB7;
+        color: white;
+        height: 60px;
+        display: flex;
+        align-items: center;
+    }
+    .hamburger {
+        cursor: pointer;
+        position: absolute;
+        right:38%;
+    }
+    
+    .hamburger .line {
+        width: 25px;
+        height: 1px;
+        background-color: #f0eeee;
+        display: block;
+        margin: 7px auto;   
+        transition: all 0.3s ease-in-out;
+    }
+    .hamburger-active {
+        transition: all 0.3s ease-in-out;
+        transition-delay: 0.6s;
+        transform: rotate(90deg);
+    }
+    
+    .hamburger-active .line:nth-child(2) {
+        width: 0px;
+    }
+    
+    .hamburger-active .line:nth-child(1),
+    .hamburger-active .line:nth-child(3) {
+        transition-delay: 0.3s;
+    }
+    
+    .hamburger-active .line:nth-child(1) {
+        transform: translateY(12px);
+    }
+    
+    .hamburger-active .line:nth-child(3) {
+        transform: translateY(-5px) rotate(90deg);
+    }
+
+    .menubar {
+        position: fixed;
+        top: 11.9%;
+        left:36.9%; 
+        width: 280px;
+        height: 600px;
+        border-radius:10px ;
+        flex: 1;
+        overflow-x: auto;
+        background: linear-gradient(45deg, #52E5E7, #130CB7);
+        transition:  0.6s ease-in-out;
+        z-index: 1000;
+    }
+    /* .active {
+        right: 33%;
+        box-shadow: rgba(126, 135, 144, 0.2) 0px 8px 24px;
+        z-index: 1;
+    } */
+
+    .hide{
+    width: 0;
+    }
+    .creatroom.active{
+        transform: translateX(-100%);
+    }
+
+    .creatroom {
+        position: absolute;
+        top: 50px;
+        left: 50px;
+        width: 70px;
+        height: 50px;
+    }
+
+    /* input{ 
+        flex: 1;
+        padding: 12px 15px;
+        border: none;
+        border-radius: 20px;
+        background-color: white;
+        outline: none;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        width: 150px;
+        height:30px;   
+    } */
+    /* From Uiverse.io by Praashoo7 */ 
+    input {
+        border: none;
+        outline: none;
+        border-radius: 15px;
+        padding: 1em;
+        background-color: #ccc;
+        box-shadow: inset 2px 5px 10px rgba(0,0,0,0.3);
+        transition: 300ms ease-in-out;
+    }
+    
+    input:focus {
+        background-color: white;
+        transform: scale(1.05);
+    
+    }
+
+    .menubar button {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    align-self: flex-start;
+    font-family: inherit;
+    color: #717171;
+    font-weight: 600;
+    width: 60px;
+    height:30px;
+    background: #313131;
+    border: 1px solid #414141;
+    /* padding: 12px 16px; */
+    font-size: inherit;
+    gap: 8px;
+    margin-top: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+    }
+    
+    .menubar button:hover {
+        background-color: #fff;
+        border-color: #fff;
+    }
+    
+    .menubar button:active{
+        scale: 0.95;
+    }
+
+
+    .leaveRoom {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fb651f;
+        font-family: inherit;
+        margin: 0 0 0 20px;
+        padding:9px 10px 9px 10px;
+        font: weight 900px;;
+        font-size: 18px;
+        border: 3px solid black;
+        border-radius: 0.4em;
+        box-shadow: 0.1em 0.1em;
+        cursor: pointer;
+    }
+    
+    .leaveRoom button:hover {
+        transform: translate(-0.05em, -0.05em);
+        box-shadow: 0.15em 0.15em;
+    }
+    
+    .leaveRoom button:active {
+        transform: translate(0.05em, 0.05em);
+        box-shadow: 0.05em 0.05em;
+    }
+    
+
+    .join{
+        position: absolute;
+        top: 150px;
+        left: 50px;
+        width: 70px;
+        height: 50px;
+    }
+
+    .messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+
+
+    .message {
+        max-width: 80%;
+        padding: 10px 15px;
+        border-radius: 18px;
+        position: relative;
+        word-wrap: break-word;
+        font-family: 'Gelasio';
+    }
+
+    .room{
+    
+        height: 200px;
+        width: 200px;
+        display: flex;
+        border-right: 1px solid #eee;
+        flex-direction: column;
+        position: absolute;
+        left:20px;
+        bottom: 10%;
+        transition: transform 0.3s ease-in-out;
+        z-index: 1000;
+    
+    }
+    .room h2 {
+        font-weight: 700;
+        font-family: Gelasio;
+        margin: 0 0 0 50px;
+    }
+
+    #room_list {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    #room_list li {
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+        margin: 10px;
+        padding: 0 0 0 10px;
+        text-transform: uppercase;  
+        cursor: pointer;
+        border-radius: 5px;
+        border-bottom: 2px solid #eee;    
+    }
+
+    #room_list li:hover {
+
+        background-color: #000000;
+        color: #eee;
+    }
+
+    #username{
+    margin:20px 0 10px 0;
+    }
+
+    .chat-input {
+        padding: 15px;
+        background-color: #f9f9f9;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-top: 1px solid #eee;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .chat-messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        background-color: #f9f9f9;
+    }
+
+    .other-message {
+        align-self: flex-start;
+        background-color: white;
+        color: #333;
+        border-bottom-left-radius: 5px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .my-message {
+        align-self: flex-end;
+        background-color: #4e54c8;
+        color: white;
+        border-bottom-right-radius: 5px;
+    }
+
+
+    .chat-input {
+        padding: 15px;
+        background-color: #f9f9f9;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-top: 1px solid #eee;
+        position: absolute;
+        bottom: 90px;
+        width:400px;
+        border-radius: 20px;
+
+    }
+
+    .chat-input input {
+        flex: 1;
+        padding: 12px 15px;
+        border: none;
+        border-radius: 20px;
+        background-color: white;
+        outline: none;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-input button {
+        background-color: #4cd4d6;
+        color: #000000;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.2s;
+    }
+
+    .chat-input button:hover {
+        background-color: #130CB7;
+    }
+    
+
+    /* Responsive adjustments */
+    @media (max-width: 780px) {
+        .chat-container {
+            height: 100%;
+            max-width: 100%;
+            border-radius: 0;
+        }
+        .chat-input{
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            border-radius: 20px;
+        }
+        .hamburger {
+            /* display: none; */
+            cursor: pointer;
+            position: absolute;
+            right:8%;
+        }
+        .menubar{
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 4px;
+            height: 100%;
+
+        }
+        .room{
+            bottom: 20%;
+        }
+        .leaveRoom{
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            align-self: flex-start;
+            font-family: inherit;
+            color: #717171;
+            font-weight: 600;
+            width: 60px;
+            height:30px;
+            background: #313131;
+            border: 1px solid #414141;
+            /* padding: 12px 16px; */
+            font-size: inherit;
+            gap: 8px;
+            margin-top: 8px;
+            cursor: pointer;
+            border-radius: 6px
+        } 
+        
+    .leaveRoom button:hover {
+            background-color: #fff;
+            border-color: #fff;
+        }
+
+    .leaveRoom button:active{
+            scale: 0.95;
+        }
+    }
+
+
+    @media (max-width: 1200px) {
+        .chat-container {
+            height: 100%;
+            max-width: 100%;
+            border-radius: 0;
+        }
+        .chat-input{
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            border-radius: 20px;
+        }
+        .hamburger {
+            /* display: none; */
+            cursor: pointer;
+            position: absolute;
+            right:8%;
+        }
+        .menubar{
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 4px;
+            height: 100%;
+
+        }
+        .room{
+            bottom: 20%;
+        }
+        .leaveRoom{
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            align-self: flex-start;
+            font-family: inherit;
+            color: #717171;
+            font-weight: 600;
+            width: 60px;
+            height:30px;
+            background: #313131;
+            border: 1px solid #414141;
+            /* padding: 12px 16px; */
+            font-size: inherit;
+            gap: 8px;
+            margin-top: 8px;
+            cursor: pointer;
+            border-radius: 6px
+        } 
+        
+    .leaveRoom button:hover {
+            background-color: #fff;
+            border-color: #fff;
+        }
+
+    .leaveRoom button:active{
+            scale: 0.95;
+        }
+    }

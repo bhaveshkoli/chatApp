@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <title>Chat App</title>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="hamburger">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </div>
+            <button class="leaveRoom" onclick="leaveRoom()">Leave</button>
+        </div>
+
+        <div class="menubar"> 
+            <div class="rooms"> 
+                <div class="creatroom">
+                    <input type="text" id="room_name" placeholder="Creat your room">
+                    <button onclick="createRoom()">Create</button>
+                </div>
+                <div class="join">
+                    <input type="text" id="username" placeholder="Enter your name">
+                    <input type="text" id="room" placeholder="Enter room name">
+                    <button onclick="joinRoom()">Join</button>
+                </div>
+                <div class="room">
+                    <h2>Rooms</h2>
+                    <ul id="room_list">
+                        
+                    </ul> 
+                </div>
+            </div>
+        </div>
+        
+        <div id="chatbox"  class="chat-messages"></div>
+        
+        <div class="chat-input">
+            <input type="text" id="message" placeholder="Type a message...">
+            <button onclick="sendMessage()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const mobileNav = document.querySelector(".hamburger");
+        const navbar = document.querySelector(".menubar");
+        const rooms = document.querySelector(".rooms");
+        navbar.classList.add("hide"); 
+
+        const toggleNav = () => {
+            navbar.classList.toggle("hide"); 
+            navbar.classList.toggle("active");
+            mobileNav.classList.toggle("hamburger-active");
+            rooms.classList.toggle("none")
+        };
+        mobileNav.addEventListener("click", toggleNav);
+
+        let socket = io();
+        let username = "";
+        let room = "";
+
+        function createRoom() {
+            let roomName = document.getElementById("room_name").value;
+            if (roomName) {
+                socket.emit("create_room", { room: roomName }); 
+                document.getElementById("room_name").value = "";
+            }
+        }
+
+        socket.on("update_rooms", function(rooms) {
+            let roomList = document.getElementById("room_list");
+            roomList.innerHTML = ""; 
+
+            rooms.forEach(function(room) {
+                let listItem = document.createElement("li");
+                listItem.innerText = room;
+                listItem.onclick = function() {
+                    document.getElementById("room").value = room;
+                };
+                roomList.appendChild(listItem);
+            });
+        });
+
+
+        function joinRoom() {
+            username = document.getElementById("username").value;
+            room = document.getElementById("room").value;
+
+            if (username && room) {
+                socket.emit("join_room", { username: username, room: room });
+            }
+        }
+
+        socket.on("chat_message", function(data) {
+            let chatbox = document.getElementById("chatbox");
+            let messageElement = document.createElement("div");
+
+            if (data.username === username) {
+                messageElement.classList.add("message", "my-message");
+            } else {
+                messageElement.classList.add("message", "other-message");
+            }
+
+            messageElement.innerHTML = `<b>${data.username}:</b> ${data.message}`;
+            chatbox.appendChild(messageElement);
+
+            // Auto-scroll to bottom
+            chatbox.scrollTop = chatbox.scrollHeight;
+        });
+
+        function sendMessage() {
+            let message = document.getElementById("message").value;
+            if (message) {
+                socket.emit("chat_message", { username: username, message: message, room: room });
+                document.getElementById("message").value = "";
+            }
+        }
+
+        function leaveRoom() {
+            socket.emit("leave_room", { username: username, room: room });
+        }
+        
+    </script>
+</body>
+</html>
